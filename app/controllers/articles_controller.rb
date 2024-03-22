@@ -1,6 +1,8 @@
 class ArticlesController < ApplicationController
   def index
-    @articles = Article.all
+    # @articles = Article.joins(:author).published
+    # fix n+1
+    @articles = Article.includes(:author).published
   end
 
   def show
