@@ -1,4 +1,7 @@
 class ArticlesController < ApplicationController
+
+  before_action :load_article , only: [:show, :update]
+
   def index
     # @articles = Article.joins(:author).published
     # fix n+1
@@ -6,7 +9,6 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    @article = Article.find(params[:id])
   end
 
   def create
@@ -14,8 +16,7 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    article = Article.find(params[:id])
-    article.update! article_params
+    @article.update! article_params
   end
 
 
@@ -23,6 +24,10 @@ class ArticlesController < ApplicationController
 
   def article_params
     params[:article].require(:title).permit(:body)
+  end
+
+  def load_article
+    @article = Article.find(params[:id])
   end
 
 end
